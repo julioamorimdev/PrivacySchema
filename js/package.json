@@ -1,0 +1,15 @@
+{
+  "name": "privacyschema",
+  "version": "0.1.0",
+  "description": "Pluggable framework for personal data compliance (LGPD/GDPR)",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": ["privacy", "lgpd", "gdpr", "compliance", "anonymization"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}

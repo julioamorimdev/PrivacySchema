@@ -1,3 +1,7 @@
+[![PyPI version](https://img.shields.io/pypi/v/privacyschema.svg)](https://pypi.org/project/privacyschema/)
+[![npm version](https://img.shields.io/npm/v/privacyschema.svg)](https://www.npmjs.com/package/privacyschema)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 # PrivacySchema
 
 Pluggable framework for anonymization, consent, retention, and access to personal data (LGPD/GDPR).

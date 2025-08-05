@@ -9,20 +9,76 @@ Pluggable framework for anonymization, consent, retention, and access to persona
 ## Purpose
 Facilitate the implementation of sensitive data compliance in different languages (Node.js, Python, JS via CDN).
 
+## Features
+- Personal data validation (CPF, email, etc.)
+- Data masking (CPF, email, etc.)
+- Consent management (register, update, revoke)
+- Retention policy (mark for expiration/removal)
+- Audit logging (operations on sensitive data)
+
 ## Usage examples
 
+### JavaScript/Node.js
 ```js
-// JavaScript/Node.js
 const privacy = require('privacyschema');
-privacy.validate(user_data);
-privacy.mask('cpf', '123.456.789-00');
+
+// Validation
+const validationResult = privacy.validation.validate({ cpf: '12345678909', email: 'test@example.com' });
+console.log(validationResult); // { cpf: true, email: true }
+
+// Masking
+console.log(privacy.masking.mask('cpf', '12345678900')); // *********00
+console.log(privacy.masking.mask('email', 'john.doe@example.com')); // j********e@example.com
+
+// Consent
+privacy.consent.registerConsent('user1', { purpose: 'marketing' });
+console.log(privacy.consent.isConsentActive('user1')); // true
+privacy.consent.revokeConsent('user1');
+console.log(privacy.consent.isConsentActive('user1')); // false
+
+// Retention
+const now = new Date();
+const past = new Date(now.getTime() - 10000);
+privacy.retention.markForExpiration('user2', past);
+console.log(privacy.retention.isExpired('user2')); // true
+
+// Audit
+privacy.audit.logOperation('user3', 'access', { field: 'cpf' });
+console.log(privacy.audit.getAuditLogs());
 ```
 
+### Python
 ```python
-# Python
-from privacyschema import privacy
-privacy.validate(user_data)
-privacy.mask('cpf', '123.456.789-00')
+from privacyschema import (
+    validate, is_valid_cpf, is_valid_email, mask,
+    register_consent, update_consent, revoke_consent, is_consent_active,
+    mark_for_expiration, is_expired,
+    log_operation, get_audit_logs
+)
+from datetime import datetime, timedelta
+
+# Validation
+result = validate({'cpf': '12345678909', 'email': 'test@example.com'})
+print(result)  # {'cpf': True, 'email': True}
+
+# Masking
+print(mask('cpf', '12345678900'))  # *********00
+print(mask('email', 'john.doe@example.com'))  # j********e@example.com
+
+# Consent
+register_consent('user1', {'purpose': 'marketing'})
+print(is_consent_active('user1'))  # True
+revoke_consent('user1')
+print(is_consent_active('user1'))  # False
+
+# Retention
+past = datetime.now() - timedelta(seconds=10)
+mark_for_expiration('user2', past)
+print(is_expired('user2'))  # True
+
+# Audit
+log_operation('user3', 'access', {'field': 'cpf'})
+print(get_audit_logs())
 ```
 
 ## Installation

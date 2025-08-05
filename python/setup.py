@@ -13,7 +13,7 @@ with open(readme_path, encoding='utf-8') as f:
 
 setup(
     name="privacyschema",
-    version="0.1.1",
+    version="0.2.0",
     description="Pluggable framework for personal data compliance (LGPD/GDPR)",
     long_description=long_description,
     long_description_content_type="text/markdown",

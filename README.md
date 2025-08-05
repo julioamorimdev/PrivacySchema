@@ -11,7 +11,7 @@ Facilitate the implementation of sensitive data compliance in different language
 
 ## Features
 - Personal data validation (CPF, email, etc.)
-- Data masking (CPF, email, etc.)
+- Data masking (CPF, email, phone, RG, CNPJ, name, address)
 - Consent management (register, update, revoke)
 - Retention policy (mark for expiration/removal)
 - Audit logging (operations on sensitive data)
@@ -22,63 +22,28 @@ Facilitate the implementation of sensitive data compliance in different language
 ```js
 const privacy = require('privacyschema');
 
-// Validation
-const validationResult = privacy.validation.validate({ cpf: '12345678909', email: 'test@example.com' });
-console.log(validationResult); // { cpf: true, email: true }
-
-// Masking
+// Masking examples
 console.log(privacy.masking.mask('cpf', '12345678900')); // *********00
 console.log(privacy.masking.mask('email', 'john.doe@example.com')); // j********e@example.com
-
-// Consent
-privacy.consent.registerConsent('user1', { purpose: 'marketing' });
-console.log(privacy.consent.isConsentActive('user1')); // true
-privacy.consent.revokeConsent('user1');
-console.log(privacy.consent.isConsentActive('user1')); // false
-
-// Retention
-const now = new Date();
-const past = new Date(now.getTime() - 10000);
-privacy.retention.markForExpiration('user2', past);
-console.log(privacy.retention.isExpired('user2')); // true
-
-// Audit
-privacy.audit.logOperation('user3', 'access', { field: 'cpf' });
-console.log(privacy.audit.getAuditLogs());
+console.log(privacy.masking.mask('phone', '11987654321')); // ********21
+console.log(privacy.masking.mask('rg', '123456789')); // *******89
+console.log(privacy.masking.mask('cnpj', '12345678000199')); // ************0199
+console.log(privacy.masking.mask('name', 'Maria Silva')); // M***a S***a
+console.log(privacy.masking.mask('address', 'Rua das Flores 123')); // R**a d**s F***s 123
 ```
 
 ### Python
 ```python
-from privacyschema import (
-    validate, is_valid_cpf, is_valid_email, mask,
-    register_consent, update_consent, revoke_consent, is_consent_active,
-    mark_for_expiration, is_expired,
-    log_operation, get_audit_logs
-)
-from datetime import datetime, timedelta
+from privacyschema import mask
 
-# Validation
-result = validate({'cpf': '12345678909', 'email': 'test@example.com'})
-print(result)  # {'cpf': True, 'email': True}
-
-# Masking
+# Masking examples
 print(mask('cpf', '12345678900'))  # *********00
 print(mask('email', 'john.doe@example.com'))  # j********e@example.com
-
-# Consent
-register_consent('user1', {'purpose': 'marketing'})
-print(is_consent_active('user1'))  # True
-revoke_consent('user1')
-print(is_consent_active('user1'))  # False
-
-# Retention
-past = datetime.now() - timedelta(seconds=10)
-mark_for_expiration('user2', past)
-print(is_expired('user2'))  # True
-
-# Audit
-log_operation('user3', 'access', {'field': 'cpf'})
-print(get_audit_logs())
+print(mask('phone', '11987654321'))  # ********21
+print(mask('rg', '123456789'))  # *******89
+print(mask('cnpj', '12345678000199'))  # ************0199
+print(mask('name', 'Maria Silva'))  # M***a S***a
+print(mask('address', 'Rua das Flores 123'))  # R**a d**s F***s 123
 ```
 
 ## Installation
